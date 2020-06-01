@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/JCodes.iml" filepath="$PROJECT_DIR$/JCodes.iml" />
       <module fileurl="file://$PROJECT_DIR$/linear/linear.iml" filepath="$PROJECT_DIR$/linear/linear.iml" />
       <module fileurl="file://$PROJECT_DIR$/sort/sort.iml" filepath="$PROJECT_DIR$/sort/sort.iml" />
+      <module fileurl="file://$PROJECT_DIR$/symbol/symbol.iml" filepath="$PROJECT_DIR$/symbol/symbol.iml" />
     </modules>
   </component>
 </project>
