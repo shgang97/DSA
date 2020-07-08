@@ -1,8 +1,6 @@
-package com.shgang.linkedlist;
+package com.shgang.linkedlist.doublelinkedelist;
 
-import java.util.Stack;
-
-public class SingleLinkedListDemo {
+public class DoubleLinkedListDemo {
 	public static void main(String[] args) {
 		//进行测试
 		//先创建节点
@@ -10,16 +8,17 @@ public class SingleLinkedListDemo {
 		HeroNode hero2 = new HeroNode(2, "卢俊义", "玉麒麟");
 		HeroNode hero3 = new HeroNode(3, "吴用", "智多星");
 		HeroNode hero4 = new HeroNode(4, "林冲", "豹子头");
-		SingleLinkedList alist = new SingleLinkedList();
-//		alist.add(hero1);
-//		alist.add(hero2);
-//		alist.add(hero3);
-//		alist.add(hero4);
-		System.out.println("-------------按顺序添加节点--------------");
-		alist.addByOrder(hero4);
-		alist.addByOrder(hero1);
-		alist.addByOrder(hero3);
-		alist.addByOrder(hero2);
+		DoubleLinkedList alist = new DoubleLinkedList();
+		System.out.println("-------------添加节点--------------");
+		alist.add(hero1);
+		alist.add(hero2);
+		alist.add(hero3);
+		alist.add(hero4);
+//		System.out.println("-------------按顺序添加节点--------------");
+//		alist.addByOrder(hero4);
+//		alist.addByOrder(hero1);
+//		alist.addByOrder(hero3);
+//		alist.addByOrder(hero2);
 		alist.list();
 		System.out.println("-------------修改节点--------------");
 		HeroNode newHero = new HeroNode(2, "小卢", "玉麒麟");
@@ -32,107 +31,14 @@ public class SingleLinkedListDemo {
 //		alist.del(4);
 //		alist.del(4);
 		alist.list();
-		System.out.println("-------------获取有效节点个数--------------");
-		System.out.println(getLength(alist.getHead()));
-		System.out.println("-------------获取倒数第2个节点--------------");
-		System.out.println(getLastIndexNode(alist.getHead(), 2));
-		System.out.println("-------------反转列表--------------");
-		reverseList(alist.getHead());
-		alist.list();
-		System.out.println("-------------递归法逆序打印列表--------------");
-		postPrint(alist.getHead());
-		System.out.println("-------------使用栈逆序打印列表--------------");
-		reversPrint(alist.getHead());
 
 
 	}
 
-
-	//exer1:获取单链表节点的个数
-
-	/**
-	 * @param head 链表的头节点
-	 * @return 返回有效节点的个数
-	 */
-	public static int getLength(HeroNode head) {
-		if (head.next == null) {
-			return 0;
-		}
-		int length = 0;
-		HeroNode cur = head.next;
-		while (cur != null) {
-			length += 1;
-			cur = cur.next;
-		}
-		return length;
-	}
-
-
-	//exer2:查找单链表中单数第k个节点
-	public static HeroNode getLastIndexNode(HeroNode head, int index) {
-		if (head.next == null || index <= 0) {
-			return null;
-		}
-		int size = getLength(head);
-		if (index > size) {
-			return null;
-		}
-		HeroNode cur = head.next;
-		for (int i = 0; i < size - index; i++) {
-			cur = cur.next;
-		}
-		return cur;
-	}
-
-
-	//exer3:单链表反转
-	public static void reverseList(HeroNode head) {
-		if (head.next == null || head.next.next == null) {
-			return;
-		}
-		//定义一个辅助的指针
-		HeroNode cur = head.next;
-		HeroNode next = null;
-		HeroNode reverseHead = new HeroNode(0, "", "");
-		while (cur != null) {
-			next = cur.next;
-			cur.next = reverseHead.next;
-			reverseHead.next = cur;
-			cur = next;
-		}
-		head.next = reverseHead.next;
-	}
-
-	//exer4_1递归法:逆序打印节点
-	public static void postPrint(HeroNode head) {
-		HeroNode cur = head.next;
-		if (cur == null) {
-			return;
-		} else {
-			postPrint(cur);
-			System.out.println(cur);
-		}
-	}
-
-	//exer4_2使用栈法:逆序打印节点
-	public static void reversPrint(HeroNode head) {
-		if (head.next == null) {
-			return;
-		}
-		Stack<HeroNode> stack = new Stack<>();
-		HeroNode cur = head.next;
-		while (cur != null) {
-			stack.push(cur);
-			cur = cur.next;
-		}
-		while (stack.size() > 0) {
-			System.out.println(stack.pop());
-		}
-	}
 }
 
-//定义一个SingleLinkedList管理我们的英雄
-class SingleLinkedList {
+//定义一个DoubleleLinkedList管理我们的英雄
+class DoubleLinkedList {
 	//	先初始化一个头节点，头节点不要动
 	private HeroNode head = new HeroNode(0, "'", "");
 
@@ -154,6 +60,7 @@ class SingleLinkedList {
 		}
 		//当退出while循环时，temp指向了链表的最后
 		temp.next = heroNode;
+		heroNode.pre = temp;
 	}
 
 	//第二种添加英雄的方法，按照排名将英雄添加到指定位置
@@ -179,6 +86,7 @@ class SingleLinkedList {
 		} else {
 			heroNode.next = temp.next;
 			temp.next = heroNode;
+			heroNode.pre = temp;
 		}
 	}
 
@@ -230,27 +138,35 @@ class SingleLinkedList {
 		}
 	}
 
-	//删除节点
+	//从双向链表中删除一个节点
+	//直接找到要删除的节点
 	public void del(int no) {
-		HeroNode temp = head;
+		if (head.next == null) {
+			System.out.println("链表为空");
+			return;
+		}
+		HeroNode temp = head.next;
 		boolean flag = false;
 		while (true) {
-			if (temp.next == null) {
-				System.out.println("链表为空");
+			if (temp == null) {
 				break;
 			}
-			if (temp.next.no == no) {
+			if (temp.no == no) {
 				flag = true;
 				break;
 			}
 			temp = temp.next;
 		}
 		if (flag) {
-			temp.next = temp.next.next;
+			System.out.println(temp);
+			temp.pre.next = temp.next;
+			//如果是最后一个节点就不需要执行下面的语句，否则出现空指针异常
+			if (temp.next != null) {
+				temp.next.pre = temp.pre;
+			}
 		} else {
 			System.out.printf("没有找到编号为%d的节点", no);
 		}
-
 	}
 
 	public HeroNode getHead() {
@@ -264,6 +180,7 @@ class HeroNode {
 	public String name;
 	public String nickname;
 	public HeroNode next;
+	public HeroNode pre;
 
 	//重写toString方法
 	@Override
