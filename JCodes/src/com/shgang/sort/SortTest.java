@@ -1,6 +1,6 @@
 package com.shgang.sort;
 
-public class sortTest {
+public class SortTest {
 	public static void main(String[] args) {
 		int[] arr = genRandomNum(80000, 800000);
 		long start = System.currentTimeMillis();
