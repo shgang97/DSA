@@ -1,8 +1,10 @@
 package com.shgang.sort;
 
+import com.shgang.tree.HeapSort;
+
 public class SortTest {
 	public static void main(String[] args) {
-		int[] arr = genRandomNum(80000, 800000);
+		int[] arr = genRandomNum(800000, 800000);
 		long start = System.currentTimeMillis();
 
 		//冒泡排序
@@ -47,9 +49,15 @@ public class SortTest {
 
 		//基数排序
 		//基数排序花费时间：30毫秒
+//		System.out.println("---------------基数排序----------------");
+//		RadixSort.radixSort(arr);
+//		System.out.println("基数排序花费时间：" + (System.currentTimeMillis() - start) + "毫秒");
+
+		//堆排序
+		//堆排序花费时间：65毫秒
 		System.out.println("---------------基数排序----------------");
-		RadixSort.radixSort(arr);
-		System.out.println("基数排序花费时间：" + (System.currentTimeMillis() - start) + "毫秒");
+		HeapSort.heapSort(arr);
+		System.out.println("堆排序花费时间：" + (System.currentTimeMillis() - start) + "毫秒");
 //		System.out.println(Arrays.toString(arr));
 
 	}
